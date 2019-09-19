@@ -15,17 +15,3 @@ class Weapon(Item):
  
     def __str__(self):
         return "{}\n=====\n{}\nValue: {}\nDamage: {}".format(self.name, self.description, self.value, self.damage)
- 
-class Rock(Weapon):
-    def __init__(self):
-        super().__init__(name="Rock",
-                         description="A fist-sized rock, suitable for bludgeoning.",
-                         value=0,
-                         damage=5)
- 
-class Dagger(Weapon):
-    def __init__(self):
-        super().__init__(name="Dagger",
-                         description="A small dagger with some rust. Somewhat more dangerous than a rock.",
-                         value=10,
-                         damage=10)
