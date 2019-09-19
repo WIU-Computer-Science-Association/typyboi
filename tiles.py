@@ -35,10 +35,10 @@ class MapTile:
         pass
 
 class LootRoom(MapTile):
-    def __init__(self, x, y, item_list = [], gold = 0):
+    def __init__(self, x, y, flavor_text = "", item_list = [], gold = 0):
         self.item_list = item_list
         self.gold = gold
-        super().__init__(x, y)
+        super().__init__(x, y, flavor_text)
  
     def add_loot(self, player):
         player.inventory.append(self.item_list)
@@ -50,9 +50,9 @@ class LootRoom(MapTile):
         self.add_loot(player)
 
 class EnemyRoom(MapTile):
-    def __init__(self, x, y, enemy):
+    def __init__(self, x, y, flavor_text = "", enemy = None):
         self.enemy = enemy
-        super().__init__(x, y)
+        super().__init__(x, y, flavor_text)
  
     def modify_player(self, the_player):
         if self.enemy.is_alive():
