@@ -1,15 +1,20 @@
 from typyboi import items
  
 class Player:
-    def __init__(self, x, y):
+    def __init__(self, x, y, max_hp):
         self.inventory = Inventory()
-        self.hp = 100
+        self.max_hp = max_hp
+        self.hp = max_hp
         self.location_x = x
         self.location_y = y
         self.victory = False
  
     def is_alive(self):
         return self.hp > 0
+
+    def add_hp(self, delta_hp):
+        new_hp = self.hp + delta_hp
+        self.hp = new_hp if new_hp <= self.max_hp else self.max_hp
  
     def print_inventory(self):
         for item in self.inventory.items:
