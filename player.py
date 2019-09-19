@@ -37,6 +37,11 @@ class Player:
     def move_west(self):
         self.move(dx=-1, dy=0)
 
+    def do_action(self, action, **kwargs):
+        action_method = getattr(self, action.method.__name__)
+        if action_method:
+            action_method(**kwargs)
+
 class Inventory():
     def __init__(self, items = [], gold = 0):
         self.items = items
