@@ -28,6 +28,7 @@ class MapTile:
     def available_actions(self):
         moves = self.get_adjacent_moves()
         moves.append(actions.ViewInventory())
+        return moves
  
     def modify_player(self, player):
         pass
