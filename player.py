@@ -1,4 +1,5 @@
 from typyboi import items
+import random
  
 class Player:
     def __init__(self, x, y, max_hp):
@@ -36,6 +37,14 @@ class Player:
     
     def move_west(self):
         self.move(dx=-1, dy=0)
+
+    def attack(self):
+        pass
+
+    def flee(self, tile):
+        available_moves = tile.adjacent_moves()
+        r = random.randint(0, len(available_moves) - 1)
+        self.do_action(available_moves[r])
 
     def do_action(self, action, **kwargs):
         action_method = getattr(self, action.method.__name__)

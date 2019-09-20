@@ -1,35 +1,33 @@
-from typyboi import items, enemies
-
-class World:
-    def __init__(self, json_file = None):
-        self.map = {}
-
-    def add_tile(self, tile):
-        self.map[(tile.x, tile.y)] = tile
-
-    def get_adjacent_tiles(self, x, y):
-        adjacent_tiles = []
-        # Check north
-        if((x, y + 1) in self.map):
-            adjacent_tiles.append(self.map[(x, y + 1)])
-        # Check east
-        if((x + 1, y) in self.map):
-            adjacent_tiles.append(self.map[(x + 1, y)])
-        #Check south
-        if((x, y - 1) in self.map):
-            adjacent_tiles.append(self.map[(x, y - 1)])
-        #Check west
-        if((x - 1, y) in self.map):
-            adjacent_tiles.append(self.map[(x - 1, y)])
-
-        return adjacent_tiles
-
+from typyboi import items, enemies, actions, world
  
 class MapTile:
     def __init__(self, x, y, flavor_text = ''):
         self.x = x
         self.y = y
         self.flavor_text = flavor_text
+    
+    def get_adjacent_moves(self):
+        adjacent_moves = []
+        x = self.x
+        y = self.y
+        # Check north
+        if(world.tile_exists(x, y + 1)):
+            adjacent_moves.append(actions.MoveNorth())
+        # Check east
+        if(world.tile_exists(x + 1, y)):
+            adjacent_moves.append(actions.MoveEast())
+        #Check south
+        if(world.tile_exists(x, y - 1)):
+            adjacent_moves.append(actions.MoveSouth())
+        #Check west
+        if(world.tile_exists(x - 1, y)):
+            adjacent_moves.append(actions.MoveWest())
+
+        return adjacent_moves
+
+    def available_actions(self):
+        moves = self.get_adjacent_moves()
+        moves.append(actions.ViewInventory())
  
     def modify_player(self, player):
         pass
@@ -59,4 +57,12 @@ class EnemyRoom(MapTile):
             the_player.hp = the_player.hp - self.enemy.damage
             print("Enemy does {} damage. You have {} HP remaining.".format(self.enemy.damage, the_player.hp))
 
+    def available_actions(self):
+        if self.enemy.is_alive():
+            moves = []
+            moves.append(actions.Attack(enemy=self.enemy))
+            moves.append(actions.Flee(tile=self))
+            return moves
+        else:
+            return super.available_actions()
  
