@@ -28,6 +28,7 @@ class MapTile:
     def available_actions(self):
         moves = self.get_adjacent_moves()
         moves.append(actions.ViewInventory())
+        moves.append(actions.EquipWeapon())
         return moves
  
     def modify_player(self, player):
@@ -56,7 +57,7 @@ class EnemyRoom(MapTile):
  
     def modify_player(self, the_player):
         if self.enemy.is_alive():
-            the_player.hp = the_player.hp - self.enemy.damage
+            the_player.hp -= self.enemy.damage
             print("Enemy does {} damage. You have {} HP remaining.".format(self.enemy.damage, the_player.hp))
 
     def available_actions(self):
