@@ -40,7 +40,8 @@ class LootRoom(MapTile):
         super().__init__(x, y, flavor_text)
  
     def add_loot(self, player):
-        player.inventory.append(self.item_list)
+        for item in self.item_list:
+            player.inventory.add_item(item)
         player.inventory.add_gold(self.gold)
         self.item_list = []
         self.gold = 0
