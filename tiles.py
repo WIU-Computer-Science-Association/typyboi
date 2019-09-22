@@ -54,14 +54,21 @@ class LootRoom(MapTile):
         self.add_loot(player)
 
 class EnemyRoom(MapTile):
-    def __init__(self, x, y, flavor_text = "", enemy = None):
+    def __init__(self, x, y, room_text, enemy_alive_text, enemy = None):
         self.enemy = enemy
-        super().__init__(x, y, flavor_text)
+        self.enemy_alive_text = enemy_alive_text
+        self.room_text = room_text
+        if(self.enemy != None and self.enemy.is_alive()):
+            super().__init__(x, y, enemy_alive_text)
+        else:
+            super().__init__(x, y, room_text)
  
     def modify_player(self, the_player):
         if self.enemy.is_alive():
             the_player.hp -= self.enemy.damage
             print("Enemy does {} damage. You have {} HP remaining.".format(self.enemy.damage, the_player.hp))
+        else:
+            self.flavor_text = self.room_text
 
     def available_actions(self):
         if self.enemy.is_alive():
@@ -70,5 +77,8 @@ class EnemyRoom(MapTile):
             moves.append(Flee(tile=self))
             return moves
         else:
-            return super.available_actions()
+            moves = self.get_adjacent_moves()
+            moves.append(ViewInventory())
+            moves.append(EquipWeapon())
+            return moves
  

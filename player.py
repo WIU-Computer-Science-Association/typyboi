@@ -33,10 +33,10 @@ class Player:
         self.location_y += dy  
  
     def move_north(self):
-        self.move(dx=0, dy=-1)
+        self.move(dx=0, dy=1)
     
     def move_south(self):
-        self.move(dx=0, dy=1)
+        self.move(dx=0, dy=-1)
     
     def move_east(self):
         self.move(dx=1, dy=0)
@@ -58,6 +58,7 @@ class Player:
             index = 1
             for weapon in weapon_list:
                 print(str(index) + ': ' + weapon.__str__(), '\n')
+                index += 1
             print('q: quit', '\n')
             choice = input('Choose a weapon: ')
             if choice == 'q':
@@ -74,7 +75,7 @@ class Player:
                 print('Invalid input')   
 
     def flee(self, tile):
-        available_moves = tile.adjacent_moves()
+        available_moves = tile.get_adjacent_moves()
         r = random.randint(0, len(available_moves) - 1)
         self.do_action(available_moves[r])
 
