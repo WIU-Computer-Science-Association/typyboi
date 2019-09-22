@@ -1,8 +1,8 @@
-from typyboi import items
+from typyboi.items import Weapon
 import random
  
 class Player:
-    def __init__(self, x, y, max_hp, weapon = items.Weapon('Rock', 'A hard rock', 1, 1)):
+    def __init__(self, x, y, max_hp, weapon = Weapon('Rock', 'A hard rock', 1, 1)):
         self.inventory = Inventory()
         self.max_hp = max_hp
         self.hp = max_hp
@@ -97,7 +97,7 @@ class Inventory():
     def get_weapon_list(self):
         weapon_list = []
         for item in self.items:
-            if isinstance(item, items.Weapon):
+            if isinstance(item, Weapon):
                 weapon_list.append(item)
         
         return weapon_list

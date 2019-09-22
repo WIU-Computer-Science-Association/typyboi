@@ -1,4 +1,7 @@
-from typyboi import items, enemies, actions, world
+from typyboi import world
+from typyboi.items import Weapon
+from typyboi.enemies import Enemy
+from typyboi.actions import MoveNorth, MoveEast, MoveSouth, MoveWest, ViewInventory, EquipWeapon, Flee, Attack
  
 class MapTile:
     def __init__(self, x, y, flavor_text = ''):
@@ -12,23 +15,23 @@ class MapTile:
         y = self.y
         # Check north
         if(world.tile_exists(x, y + 1)):
-            adjacent_moves.append(actions.MoveNorth())
+            adjacent_moves.append(MoveNorth())
         # Check east
         if(world.tile_exists(x + 1, y)):
-            adjacent_moves.append(actions.MoveEast())
+            adjacent_moves.append(MoveEast())
         #Check south
         if(world.tile_exists(x, y - 1)):
-            adjacent_moves.append(actions.MoveSouth())
+            adjacent_moves.append(MoveSouth())
         #Check west
         if(world.tile_exists(x - 1, y)):
-            adjacent_moves.append(actions.MoveWest())
+            adjacent_moves.append(MoveWest())
 
         return adjacent_moves
 
     def available_actions(self):
         moves = self.get_adjacent_moves()
-        moves.append(actions.ViewInventory())
-        moves.append(actions.EquipWeapon())
+        moves.append(ViewInventory())
+        moves.append(EquipWeapon())
         return moves
  
     def modify_player(self, player):
@@ -63,8 +66,8 @@ class EnemyRoom(MapTile):
     def available_actions(self):
         if self.enemy.is_alive():
             moves = []
-            moves.append(actions.Attack(enemy=self.enemy))
-            moves.append(actions.Flee(tile=self))
+            moves.append(Attack(enemy=self.enemy))
+            moves.append(Flee(tile=self))
             return moves
         else:
             return super.available_actions()
