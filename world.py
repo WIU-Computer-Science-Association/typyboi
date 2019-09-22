@@ -1,21 +1,14 @@
 
-_world = {}
+class World():
+    
+    def __init__(self):
+        self.world = {}
 
-def register_world(world = {}):
-    '''
-        World should be a map with keys (x,y) and 
-        values of type MapTile
-    '''
-    _world = world
+    def add_tile(self, tile):
+        self.world[(tile.x, tile.y)] = tile
 
-def load_world(json_file):
-    pass
+    def tile_exists(self, x, y):
+        return (x, y) in self.world
 
-def add_tile(tile):
-    _world[tile.x, tile.y] = tile
-
-def tile_exists(x, y):
-    return (x, y) in _world
-
-def get_tile(x, y):
-    return _world[(x, y)]
+    def get_tile(self, x, y):
+        return self.world[(x, y)]

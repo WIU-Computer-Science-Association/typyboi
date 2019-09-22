@@ -1,4 +1,3 @@
-from typyboi import world
 from typyboi.items import Weapon
 from typyboi.enemies import Enemy
 from typyboi.actions import MoveNorth, MoveEast, MoveSouth, MoveWest, ViewInventory, EquipWeapon, Flee, Attack
@@ -9,7 +8,7 @@ class MapTile:
         self.y = y
         self.flavor_text = flavor_text
     
-    def get_adjacent_moves(self):
+    def get_adjacent_moves(self, world):
         adjacent_moves = []
         x = self.x
         y = self.y
@@ -28,8 +27,8 @@ class MapTile:
 
         return adjacent_moves
 
-    def available_actions(self):
-        moves = self.get_adjacent_moves()
+    def available_actions(self, world):
+        moves = self.get_adjacent_moves(world)
         moves.append(ViewInventory())
         moves.append(EquipWeapon())
         return moves
@@ -70,14 +69,14 @@ class EnemyRoom(MapTile):
         else:
             self.flavor_text = self.room_text
 
-    def available_actions(self):
+    def available_actions(self, world):
         if self.enemy.is_alive():
             moves = []
             moves.append(Attack(enemy=self.enemy))
             moves.append(Flee(tile=self))
             return moves
         else:
-            moves = self.get_adjacent_moves()
+            moves = self.get_adjacent_moves(world)
             moves.append(ViewInventory())
             moves.append(EquipWeapon())
             return moves
