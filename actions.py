@@ -1,4 +1,4 @@
-from typyboi import player
+from typyboi.player import Player
  
 class Action():
     def __init__(self, method, name, hotkey, **kwargs):
@@ -12,29 +12,33 @@ class Action():
 
 class MoveNorth(Action):
     def __init__(self):
-        super().__init__(method=player.Player.move_north, name='Move north', hotkey='n')
+        super().__init__(method=Player.move_north, name='Move north', hotkey='n')
  
 class MoveSouth(Action):
     def __init__(self):
-        super().__init__(method=player.Player.move_south, name='Move south', hotkey='s')
+        super().__init__(method=Player.move_south, name='Move south', hotkey='s')
  
 class MoveEast(Action):
     def __init__(self):
-        super().__init__(method=player.Player.move_east, name='Move east', hotkey='e')
+        super().__init__(method=Player.move_east, name='Move east', hotkey='e')
  
 class MoveWest(Action):
     def __init__(self):
-        super().__init__(method=player.Player.move_west, name='Move west', hotkey='w')
+        super().__init__(method=Player.move_west, name='Move west', hotkey='w')
  
 class ViewInventory(Action):
     """Prints the player's inventory"""
     def __init__(self):
-        super().__init__(method=player.Player.print_inventory, name='View inventory', hotkey='i')
+        super().__init__(method=Player.print_inventory, name='View inventory', hotkey='i')
+
+class EquipWeapon(Action):
+    def __init__(self):
+        super().__init__(method=Player.equip_weapon, name='Equip Weapon', hotkey='h')
 
 class Attack(Action):
     def __init__(self, enemy):
-        super().__init__(method=player.Player.attack, name="Attack", hotkey='a', enemy=enemy)
+        super().__init__(method=Player.attack, name="Attack", hotkey='a', enemy=enemy)
 
 class Flee(Action):
     def __init__(self, tile):
-        super().__init__(method=player.Player.flee, name='Flee', hotkey='f', tile=tile)
+        super().__init__(method=Player.flee, name='Flee', hotkey='f', tile=tile)

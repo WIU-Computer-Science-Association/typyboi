@@ -1,4 +1,6 @@
-from typyboi import items, enemies, actions, world
+from typyboi.items import Weapon
+from typyboi.enemies import Enemy
+from typyboi.actions import MoveNorth, MoveEast, MoveSouth, MoveWest, ViewInventory, EquipWeapon, Flee, Attack
  
 class MapTile:
     def __init__(self, x, y, flavor_text = ''):
@@ -6,28 +8,30 @@ class MapTile:
         self.y = y
         self.flavor_text = flavor_text
     
-    def get_adjacent_moves(self):
+    def get_adjacent_moves(self, world):
         adjacent_moves = []
         x = self.x
         y = self.y
         # Check north
         if(world.tile_exists(x, y + 1)):
-            adjacent_moves.append(actions.MoveNorth())
+            adjacent_moves.append(MoveNorth())
         # Check east
         if(world.tile_exists(x + 1, y)):
-            adjacent_moves.append(actions.MoveEast())
+            adjacent_moves.append(MoveEast())
         #Check south
         if(world.tile_exists(x, y - 1)):
-            adjacent_moves.append(actions.MoveSouth())
+            adjacent_moves.append(MoveSouth())
         #Check west
         if(world.tile_exists(x - 1, y)):
-            adjacent_moves.append(actions.MoveWest())
+            adjacent_moves.append(MoveWest())
 
         return adjacent_moves
 
-    def available_actions(self):
-        moves = self.get_adjacent_moves()
-        moves.append(actions.ViewInventory())
+    def available_actions(self, world):
+        moves = self.get_adjacent_moves(world)
+        moves.append(ViewInventory())
+        moves.append(EquipWeapon())
+        return moves
  
     def modify_player(self, player):
         pass
@@ -39,7 +43,8 @@ class LootRoom(MapTile):
         super().__init__(x, y, flavor_text)
  
     def add_loot(self, player):
-        player.inventory.append(self.item_list)
+        for item in self.item_list:
+            player.inventory.add_item(item)
         player.inventory.add_gold(self.gold)
         self.item_list = []
         self.gold = 0
@@ -48,21 +53,31 @@ class LootRoom(MapTile):
         self.add_loot(player)
 
 class EnemyRoom(MapTile):
-    def __init__(self, x, y, flavor_text = "", enemy = None):
+    def __init__(self, x, y, room_text, enemy = None):
         self.enemy = enemy
-        super().__init__(x, y, flavor_text)
+        self.room_text = room_text
+        super().__init__(x, y, room_text)
  
     def modify_player(self, the_player):
         if self.enemy.is_alive():
-            the_player.hp = the_player.hp - self.enemy.damage
-            print("Enemy does {} damage. You have {} HP remaining.".format(self.enemy.damage, the_player.hp))
+            the_player.hp -= self.enemy.damage
+            self.flavor_text = (
+                'A {} attacks!\n'
+                'Enemy HP: {}\n'
+                'Enemy {} does {} damage. You have {} HP remaining.\n' 
+                ).format(self.enemy.name, self.enemy.hp, self.enemy.name, self.enemy.damage, the_player.hp)
+        else:
+            self.flavor_text = self.room_text
 
-    def available_actions(self):
+    def available_actions(self, world):
         if self.enemy.is_alive():
             moves = []
-            moves.append(actions.Attack(enemy=self.enemy))
-            moves.append(actions.Flee(tile=self))
+            moves.append(Attack(enemy=self.enemy))
+            moves.append(Flee(tile=self))
             return moves
         else:
-            return super.available_actions()
+            moves = self.get_adjacent_moves(world)
+            moves.append(ViewInventory())
+            moves.append(EquipWeapon())
+            return moves
  
