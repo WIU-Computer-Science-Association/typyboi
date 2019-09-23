@@ -1,6 +1,12 @@
 class Item():
     """The base class for all items"""
     def __init__(self, name, description, value):
+        """
+        Keyword arguments:
+        name        -- string name of the item
+        description -- string description of the item
+        value       -- integer value of the item
+        """
         self.name = name
         self.description = description
         self.value = value
@@ -9,7 +15,15 @@ class Item():
         return "{}\n=====\n{}\nValue: {}\n".format(self.name, self.description, self.value)
 
 class Weapon(Item):
+    """Weapon subclass of item"""
     def __init__(self, name, description, value, damage):
+        """
+        Keyword arguments:
+        name        -- string name of the item
+        description -- string description of the item
+        value       -- integer value of the item
+        damage      -- integer damage for the weapon
+        """
         self.damage = damage
         super().__init__(name, description, value)
  

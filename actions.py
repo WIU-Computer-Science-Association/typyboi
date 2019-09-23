@@ -1,13 +1,26 @@
 from typyboi.player import Player
  
 class Action():
+    """
+        Super class for all actions
+    """
     def __init__(self, method, name, hotkey, **kwargs):
+        """
+        Keyword arguments:
+        method -- the action method to perform
+        name   -- name of the action
+        hotkey -- key that triggers this action
+        kwargs -- arguments to pass to the method
+        """
         self.method = method
         self.hotkey = hotkey
         self.name = name
         self.kwargs = kwargs
  
     def __str__(self):
+        """
+        Return a string representation of this action of the form hotkey: name
+        """
         return "{}: {}".format(self.hotkey, self.name)
 
 class MoveNorth(Action):

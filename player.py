@@ -2,7 +2,15 @@ from typyboi.items import Weapon
 import random
  
 class Player:
-    def __init__(self, x, y, max_hp, weapon = Weapon('Rock', 'A hard rock', 1, 1)):
+    def __init__(self, x, y, max_hp, weapon = Weapon('Rock', 'A hard rock', 2, 1)):
+        """
+        Instantiate a Player object
+        Keyword arguments:
+        x       -- integer x coordinate
+        y       -- integer y coordinate
+        max_hp  -- integer maximum hp for the player
+        weapon  -- Weapon equipped to player (default Rock)
+        """
         self.inventory = Inventory()
         self.max_hp = max_hp
         self.hp = max_hp
@@ -10,7 +18,7 @@ class Player:
         self.location_y = y
         self.victory = False
         self.equipped_weapon = weapon
-        self.moved = True
+        self.moved = True               # Tells if the players last action counts as a move
         if weapon != None:
             self.inventory.add_item(weapon)
  
@@ -26,6 +34,7 @@ class Player:
         for item in self.inventory.items:
             print(item, '\n')
         print('gold: ' + str(self.inventory.gold), '\n')
+        self.moved = False
     
     def move(self, dx, dy):
         self.moved = True
@@ -46,6 +55,9 @@ class Player:
 
     def attack(self, enemy):
         self.moved = True
+        if(self.equip_weapon == None):
+            enemy.hp -= 1
+            return
         enemy.hp -= self.equipped_weapon.damage
 
     def equip_weapon(self):
@@ -72,7 +84,8 @@ class Player:
                 else:
                     raise ValueError('Bad index')
             except ValueError:
-                print('Invalid input')   
+                print('Invalid input')
+        self.moved = False   
 
     def flee(self, tile):
         available_moves = tile.get_adjacent_moves()
