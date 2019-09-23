@@ -12,7 +12,7 @@ def load_world(json_file):
     pass
 
 def add_tile(tile):
-    _world[tile.x, tile.y] = tile
+    _world[(tile.x, tile.y)] = tile
 
 def tile_exists(x, y):
     return (x, y) in _world
