@@ -1,5 +1,5 @@
-from items import Weapon
-from items import HealingItem
+from typyboi.items import Weapon
+from typyboi.items import HealingItem
 import random
  
 class Player:
