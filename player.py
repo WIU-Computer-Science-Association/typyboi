@@ -1,4 +1,5 @@
-from typyboi.items import Weapon
+from items import Weapon
+from items import HealingItem
 import random
  
 class Player:
@@ -87,6 +88,34 @@ class Player:
                 print('Invalid input')
         self.moved = False   
 
+    def use_heal_item (self):
+        healing_list = self.inventory.get_healing_item_list()
+
+        if len(healing_list) == 0:
+            print('You have no heal items')
+            return
+        else:
+            index = 1
+            for item in healing_list:
+                print(str(index) + ': ' + item.__str__(), '\n')
+                index += 1
+            print('q: quit', '\n')
+            choice = input('Choose a heal item: ')
+            if choice == 'q':
+                return
+            
+            try:
+                selected_index = int(choice) - 1
+                if 0 <= selected_index < len(healing_list):
+                    hp = healing_list[selected_index].heal
+                    self.add_hp (hp) # use item to add hp to player
+                    self.inventory.delete_inventory_item(healing_list[selected_index])
+                else:
+                    raise ValueError('Bad index')
+            except ValueError:
+                print('Invalid input')
+        self.moved = False   
+
     def flee(self, tile):
         available_moves = tile.get_adjacent_moves()
         r = random.randint(0, len(available_moves) - 1)
@@ -115,3 +144,20 @@ class Inventory():
                 weapon_list.append(item)
         
         return weapon_list
+
+    def get_healing_item_list(self):
+        healing_list = []
+        for item in self.items:
+            if isinstance(item, HealingItem):
+                healing_list.append(item)
+
+        return healing_list
+
+    def delete_inventory_item (self, usedItem):
+        ''' Searches for the first item with same name in inventory to delete'''
+        i = 0
+        for idx, item in enumerate(self.items):
+            if (item.name == usedItem.name):
+                i = idx
+                break
+        self.items.pop(i)
