@@ -29,3 +29,19 @@ class Weapon(Item):
  
     def __str__(self):
         return "{}\n=====\n{}\nValue: {}\nDamage: {}".format(self.name, self.description, self.value, self.damage)
+
+class HealingItem(Item):
+    """Healing Item subclass of item"""
+    def __init__(self, name, description, value, heal):
+        """
+        Keyword arguments:
+        name        -- string name of the item
+        description -- string description of the item
+        value       -- integer value of the item
+        heal        -- integer healing power for the item
+        """
+        self.heal = heal
+        super().__init__(name, description, value)
+ 
+    def __str__(self):
+        return "{}\n=====\n{}\nValue: {}\nHeal Power: {}".format(self.name, self.description, self.value, self.heal)
