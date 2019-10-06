@@ -61,6 +61,15 @@ class Player:
             return
         enemy.hp -= self.equipped_weapon.damage
 
+        if (not enemy.is_alive()):
+            self.get_enemy_itens(enemy)
+
+    def get_enemy_itens(self, enemy):
+        dropped_gold, dropped_itens = enemy.drop_itens()
+        self.inventory.add_gold(dropped_gold)
+        for item in dropped_itens:
+            self.inventory.add_item(item)
+
     def equip_weapon(self):
         weapon_list = self.inventory.get_weapon_list()
 
