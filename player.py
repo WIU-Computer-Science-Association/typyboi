@@ -123,7 +123,7 @@ class Player:
                     raise ValueError('Bad index')
             except ValueError:
                 print('Invalid input')
-        self.moved = False   
+        self.moved = True   
 
     def flee(self, tile):
         available_moves = tile.get_adjacent_moves()

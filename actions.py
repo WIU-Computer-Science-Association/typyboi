@@ -48,6 +48,10 @@ class EquipWeapon(Action):
     def __init__(self):
         super().__init__(method=Player.equip_weapon, name='Equip Weapon', hotkey='h')
 
+class UseHealingItem(Action):
+    def __init__(self):
+        super().__init__(method=Player.use_heal_item, name='Use healing item', hotkey='r')
+
 class Attack(Action):
     def __init__(self, enemy):
         super().__init__(method=Player.attack, name="Attack", hotkey='a', enemy=enemy)
