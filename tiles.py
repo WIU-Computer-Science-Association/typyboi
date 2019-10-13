@@ -1,6 +1,6 @@
 from typyboi.items import Weapon
 from typyboi.enemies import Enemy
-from typyboi.actions import MoveNorth, MoveEast, MoveSouth, MoveWest, ViewInventory, EquipWeapon, Flee, Attack
+from typyboi.actions import MoveNorth, MoveEast, MoveSouth, MoveWest, ViewInventory, EquipWeapon, Flee, Attack, UseHealingItem
  
 class MapTile:
     def __init__(self, x, y, flavor_text = ''):
@@ -29,6 +29,7 @@ class MapTile:
 
     def available_actions(self, world):
         moves = self.get_adjacent_moves(world)
+        moves.append(UseHealingItem())
         moves.append(ViewInventory())
         moves.append(EquipWeapon())
         return moves
@@ -73,11 +74,13 @@ class EnemyRoom(MapTile):
         if self.enemy.is_alive():
             moves = []
             moves.append(Attack(enemy=self.enemy))
+            moves.append(UseHealingItem())
             moves.append(Flee(tile=self))
             return moves
         else:
             moves = self.get_adjacent_moves(world)
             moves.append(ViewInventory())
+            moves.append(UseHealingItem())
             moves.append(EquipWeapon())
             return moves
  
