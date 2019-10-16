@@ -2,7 +2,7 @@ from typyboi.items import Weapon
 import random
  
 class Player:
-    def __init__(self, x, y, max_hp, weapon = Weapon('Rock', 'A hard rock', 2, 1)):
+    def __init__(self, x, y, max_hp, weapon = Weapon('Rock', 'A hard rock', 2, 1, 90)):
         """
         Instantiate a Player object
         Keyword arguments:
@@ -55,10 +55,14 @@ class Player:
 
     def attack(self, enemy):
         self.moved = True
-        if(self.equip_weapon == None):
-            enemy.hp -= 1
-            return
-        enemy.hp -= self.equipped_weapon.damage
+        if(random.randint(1,100) > self.equipped_weapon.hit_chance):
+	        print('Attack missed!')
+        else:
+                if(self.equip_weapon == None):
+                        enemy.hp -= 1
+                        return
+                enemy.hp -= self.equipped_weapon.damage
+        #print(enemy.hp) #for testing purposes
 
     def equip_weapon(self):
         weapon_list = self.inventory.get_weapon_list()
