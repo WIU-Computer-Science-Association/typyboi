@@ -16,7 +16,7 @@ class Item():
 
 class Weapon(Item):
     """Weapon subclass of item"""
-    def __init__(self, name, description, value, damage, hit_chance):
+    def __init__(self, name, description, value, damage, accuracy):
         """
         Keyword arguments:
         name        -- string name of the item
@@ -26,11 +26,11 @@ class Weapon(Item):
 	hit_chance  -- integer percent of hit chance, max is 100
         """
         self.damage = damage
-        self.hit_chance = hit_chance
+        self.accuracy = accuracy
         super().__init__(name, description, value)
  
     def __str__(self):
-        return "{}\n=====\n{}\nValue: {}\nDamage: {}\nAccuracy: {}%".format(self.name, self.description, self.value, self.damage, self.hit_chance)
+        return "{}\n=====\n{}\nValue: {}\nDamage: {}\nAccuracy: {}%".format(self.name, self.description, self.value, self.damage, self.accuracy)
 
 class HealingItem(Item):
     """Healing Item subclass of item"""

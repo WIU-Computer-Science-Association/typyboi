@@ -1,16 +1,18 @@
 class Enemy:
-    def __init__(self, name, hp, damage, gold = 0, items = []):
+    def __init__(self, name, hp, damage, accuracy, gold = 0, items = []):
         """
         Keyword arguments:
         name        -- string name of the enemy
         hp          -- int health value
         damage      -- int damage value
+        accuracy    -- int for accuracy %, max 100
         gold        -- int gold dropped
         items       -- list of items dropped
         """
         self.name = name
         self.hp = hp
         self.damage = damage
+        self.accuracy = accuracy
         self.gold = gold
         self.items = items
  

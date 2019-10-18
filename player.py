@@ -56,7 +56,7 @@ class Player:
 
     def attack(self, enemy):
         self.moved = True
-        if(random.randint(1,100) > self.equipped_weapon.hit_chance):
+        if(random.randint(1,100) > self.equipped_weapon.accuracy):
 	        print('Attack missed!')
         else:
                 if(self.equip_weapon == None):
@@ -66,12 +66,12 @@ class Player:
         #print(enemy.hp) #for testing purposes
 
         if (not enemy.is_alive()):
-            self.get_enemy_itens(enemy)
+            self.get_enemy_items(enemy)
 
-    def get_enemy_itens(self, enemy):
-        dropped_gold, dropped_itens = enemy.drop_itens()
+    def get_enemy_items(self, enemy):
+        dropped_gold, dropped_items = enemy.drop_items()
         self.inventory.add_gold(dropped_gold)
-        for item in dropped_itens:
+        for item in dropped_items:
             self.inventory.add_item(item)
 
     def equip_weapon(self):
