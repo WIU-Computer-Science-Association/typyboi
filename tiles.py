@@ -50,7 +50,7 @@ class MapTile:
         moves.append(ViewInventory())
         moves.append(EquipWeapon())
         return moves
- 
+     
     def modify_player(self, player):
         """
         Perform actions on player
@@ -58,7 +58,7 @@ class MapTile:
         player  -- Player to modify
         """
         pass
-
+    
 class LootRoom(MapTile):
     def __init__(self, x, y, flavor_text = "", item_list = [], gold = 0):
         """
@@ -114,12 +114,19 @@ class EnemyRoom(MapTile):
         player  -- Player to modify
         """
         if self.enemy.is_alive():
-            the_player.hp -= self.enemy.damage
-            self.flavor_text = (
-                'A {} attacks!\n'
-                'Enemy HP: {}\n'
-                'Enemy {} does {} damage. You have {} HP remaining.\n' 
-                ).format(self.enemy.name, self.enemy.hp, self.enemy.name, self.enemy.damage, the_player.hp)
+            if(random.randint(1,100) > self.enemy.accuracy):
+                self.flavor_text = (
+                    'A {} attacks!\n'
+                    'Attack missed!\n'
+                    'Enemy HP: {}\n'
+                    ).format(self.enemy.name, self.enemy.hp)
+            else:
+                the_player.hp -= self.enemy.damage
+                self.flavor_text = (
+                    'A {} attacks!\n'
+                    'Enemy HP: {}\n'
+                    'Enemy {} does {} damage. You have {} HP remaining.\n' 
+                    ).format(self.enemy.name, self.enemy.hp, self.enemy.name, self.enemy.damage, the_player.hp)
         else:
             self.flavor_text = self.room_text
 
